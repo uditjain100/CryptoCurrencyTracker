@@ -2,14 +2,49 @@ package udit.programmer.co.cryptocurrencytracker.Adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_layout.view.*
+import udit.programmer.co.cryptocurrencytracker.Interface.LoadMore
 import udit.programmer.co.cryptocurrencytracker.Models.CoinModel
 import udit.programmer.co.cryptocurrencytracker.Models.DataItem
 import udit.programmer.co.cryptocurrencytracker.R
 
-class CoinAdapter(var list: List<DataItem>) : RecyclerView.Adapter<CryptoViewHolder>() {
+class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
+    RecyclerView.Adapter<CryptoViewHolder>() {
 
+    var loadMore: LoadMore? = null
+    var isLoading: Boolean = false
+    var visibleThreshold = 5
+    var lastVisibleItem = 0
+    var totalItemCount = 0
+
+    init {
+        var linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                totalItemCount = linearLayoutManager.itemCount
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
+                if (!isLoading && (totalItemCount <= lastVisibleItem + visibleThreshold)) {
+                    if (loadMore != null) loadMore!!.onLoadMore()
+                    isLoading = true
+                }
+            }
+        })
+    }
+
+    fun setloadMore(loadMore: LoadMore) {
+        this.loadMore = loadMore
+    }
+
+    fun setLoaded() {
+        isLoading = true
+    }
+
+    fun updateData(list: List<DataItem>) {
+        this.list = list
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
         return CryptoViewHolder(
@@ -45,6 +80,7 @@ class CoinAdapter(var list: List<DataItem>) : RecyclerView.Adapter<CryptoViewHol
                 R.color.Crimson
             }
         )
-        
+
+
     }
 }
