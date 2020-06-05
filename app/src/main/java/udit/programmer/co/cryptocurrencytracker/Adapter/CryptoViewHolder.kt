@@ -8,11 +8,13 @@ import kotlinx.android.synthetic.main.item_layout.view.*
 import udit.programmer.co.cryptocurrencytracker.Common.Common
 import udit.programmer.co.cryptocurrencytracker.Models.*
 import java.lang.StringBuilder
+import java.util.*
 
 class CryptoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(dataItem: DataItem?) {
         Picasso.get().load(
-            StringBuilder(Common.imageUrl).append(dataItem?.symbol!!.toLowerCase()).append(".png")
+            StringBuilder(Common.imageUrl).append(dataItem?.symbol!!.toLowerCase(Locale.getDefault()))
+                .append(".png")
                 .toString()
         ).into(itemView.coinIcon)
         itemView.coin_name.text = dataItem.name

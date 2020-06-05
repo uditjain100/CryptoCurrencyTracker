@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_layout.view.*
 import udit.programmer.co.cryptocurrencytracker.Interface.LoadMore
-import udit.programmer.co.cryptocurrencytracker.Models.CoinModel
 import udit.programmer.co.cryptocurrencytracker.Models.DataItem
 import udit.programmer.co.cryptocurrencytracker.R
 
@@ -20,7 +19,7 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
     var totalItemCount = 0
 
     init {
-        var linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -44,6 +43,7 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
 
     fun updateData(list: List<DataItem>) {
         this.list = list
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
@@ -80,7 +80,6 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
                 R.color.Crimson
             }
         )
-
 
     }
 }
