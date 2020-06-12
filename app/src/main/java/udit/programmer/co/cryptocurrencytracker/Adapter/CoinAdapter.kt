@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_layout.view.*
 import udit.programmer.co.cryptocurrencytracker.Interface.LoadMore
-import udit.programmer.co.cryptocurrencytracker.Models.DataItem
+import udit.programmer.co.cryptocurrencytracker.Models.CoinModel
 import udit.programmer.co.cryptocurrencytracker.R
 
-class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
+class CoinAdapter(recyclerView: RecyclerView, var list: List<CoinModel>) :
     RecyclerView.Adapter<CryptoViewHolder>() {
 
     var loadMore: LoadMore? = null
@@ -41,7 +41,7 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
         isLoading = true
     }
 
-    fun updateData(list: List<DataItem>) {
+    fun updateData(list: List<CoinModel>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -58,7 +58,7 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
         holder.bind(list[position])
 
         holder.itemView.oneHour.setTextColor(
-            if (list[position].quote?.uSD?.percentChange1h.toString().contains("-")) {
+            if (list[position].percent_change_1h.toString().contains("-")) {
                 R.color.Blue
             } else {
                 R.color.colorAccent
@@ -66,7 +66,7 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
         )
 
         holder.itemView.oneHour.setTextColor(
-            if (list[position].quote?.uSD?.percentChange1h.toString().contains("-")) {
+            if (list[position].percent_change_24h.toString().contains("-")) {
                 R.color.Brown
             } else {
                 R.color.DarkGray
@@ -74,7 +74,7 @@ class CoinAdapter(recyclerView: RecyclerView, var list: List<DataItem>) :
         )
 
         holder.itemView.oneHour.setTextColor(
-            if (list[position].quote?.uSD?.percentChange1h.toString().contains("-")) {
+            if (list[position].percent_change_7d.toString().contains("-")) {
                 R.color.BlanchedAlmond
             } else {
                 R.color.Crimson
